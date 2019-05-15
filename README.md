@@ -1,6 +1,6 @@
 
 # Crema
-Simple is a Go-Based RESTful API Framework Pistache originally written by [Universitas Pertamina ICT teams](https://tki.universitaspertamina.ac.id) to support its Microservices environment development. It is written in pure Go and completely free.
+Crema is a Simple Go-Based RESTful API Framework originally written by [Universitas Pertamina ICT teams](https://tki.universitaspertamina.ac.id) to support its Microservices environment development. It is written in pure Go and completely free.
 
 ## RESTful
 Playing with RESTful API using Crema is fun and easy
