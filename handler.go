@@ -1,3 +1,7 @@
+// Copyright 2019 The Crema Authors. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package crema
 
 import (
@@ -6,6 +10,8 @@ import (
 	"net/http"
 )
 
+// MakeGenericGetHandler creates a generic GET-request handler
+// TO DO : documentation will be updated soon
 func MakeGenericGetHandler(fn func(map[string]string) (*sql.Rows, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data, status := GetData(fn, w, r)
@@ -13,6 +19,8 @@ func MakeGenericGetHandler(fn func(map[string]string) (*sql.Rows, error)) http.H
 	}
 }
 
+// MakeGenericGetHandler creates a generic POST-request handler
+// TO DO : documentation will be updated soon
 func MakeGenericPostHandler(fn func(*sql.Tx, map[string]string) *sql.Row) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data, status := PostData(fn, w, r)
@@ -20,6 +28,8 @@ func MakeGenericPostHandler(fn func(*sql.Tx, map[string]string) *sql.Row) http.H
 	}
 }
 
+// MakeGenericGetHandler creates a generic PUT-request handler
+// TO DO : documentation will be updated soon
 func MakeGenericPutHandler(fn func(*sql.Tx, map[string]string) (sql.Result, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data, status := PutData(fn, w, r)
@@ -27,6 +37,8 @@ func MakeGenericPutHandler(fn func(*sql.Tx, map[string]string) (sql.Result, erro
 	}
 }
 
+// MakeGenericGetHandler creates a generic DELETE-request handler
+// TO DO : documentation will be updated soon
 func MakeGenericDeleteHandler(fn func(*sql.Tx, map[string]string) (sql.Result, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data, status := DeleteData(fn, w, r)

@@ -1,3 +1,7 @@
+// Copyright 2019 The Crema Authors. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package crema
 
 import (
@@ -13,22 +17,25 @@ type Server struct {
 	Router *mux.Router
 }
 
+<<<<<<< HEAD
 func InitServer() *Server {
 	InitLogger()
+=======
+// InitServer initializes the core system by setting up
+// the database connection, routing services and system logger
+func InitServer() *server {
+	initLogger()
+>>>>>>> 50ebc3a... [refactor][add] renamed source files, removed unnecessary exported functions, added documentations
 
 	LogPrintf("[MAIN] Initializing Server ...")
 
-	db := InitDatabase()
-	router := InitRoutes()
+	db := initDatabase()
+	router := initRoutes()
 
 	return &Server{db, router}
 }
 
-/**
- * set up DB configuration (PostgreSQL) in conf
- * copy db.json.example as db.json
- */
-func InitDatabase() *sql.DB {
+func initDatabase() *sql.DB {
 	LogPrintf("[MAIN] Initializing Database ...")
 
 	db := InitDB()
@@ -37,14 +44,14 @@ func InitDatabase() *sql.DB {
 	return db
 }
 
-func InitLogger() {
+func initLogger() {
 	log.Println("[MAIN] Initializing Logger ...")
 
 	InitLogFiles()
 	Printf("[MAIN] Initializing Logger ...")
 }
 
-func InitRoutes() *mux.Router {
+func initRoutes() *mux.Router {
 	LogPrintf("[MAIN] Initializing Endpoints ...")
 
 	router := mux.NewRouter()
@@ -52,6 +59,12 @@ func InitRoutes() *mux.Router {
 	return router
 }
 
+<<<<<<< HEAD
 func (s *Server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
+=======
+// AddRoutes is used to create HTTP request routing
+// TO DO: documentation to be updated soon
+func (s *server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
+>>>>>>> 50ebc3a... [refactor][add] renamed source files, removed unnecessary exported functions, added documentations
 	s.Router.HandleFunc(routes, handler).Methods(method)
 }

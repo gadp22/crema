@@ -1,3 +1,7 @@
+// Copyright 2019 The Crema Authors. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package crema
 
 import (
@@ -18,6 +22,8 @@ func dbConfig() map[string]string {
 	return conf
 }
 
+// InitDB sets up db connection based on config file
+// TO DO : documentaion will be updated soon
 func InitDB() *sql.DB {
 	config := dbConfig()
 
@@ -65,6 +71,8 @@ func InitDB() *sql.DB {
 	return nil
 }
 
+// Scan retrieves data from the sql.Rows dinamically
+// TO DO : documentaion will be updated soon
 func Scan(rows *sql.Rows) (interface{}, error) {
 	config := dbConfig()
 	columns, err := rows.Columns()
@@ -96,6 +104,8 @@ func Scan(rows *sql.Rows) (interface{}, error) {
 	return allMaps, err
 }
 
+// DeleteData performs the standard delete mechanism
+// TO DO : documentaion will be updated soon
 func DeleteData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
 	Printf("[DATABASE_HELPER] started deleting data ...")
 	defer Printf("[DATABASE_HELPER] finished deleting data ...")
@@ -131,6 +141,8 @@ func DeleteData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.
 	return fmt.Sprintf("Data has been successfully deleted."), http.StatusOK
 }
 
+// PutData performs the standard put mechanism
+// TO DO : documentaion will be updated soon
 func PutData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
 	Printf("[DATABASE_HELPER] started updating data ...")
 	defer Printf("[DATABASE_HELPER] finished updating data ...")
@@ -166,6 +178,8 @@ func PutData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.Res
 	return fmt.Sprintf("Data has been successfully updated."), http.StatusOK
 }
 
+// PostData performs the standard post mechanism
+// TO DO : documentaion will be updated soon
 func PostData(fn func(*sql.Tx, map[string]string) *sql.Row, w http.ResponseWriter, r *http.Request) (interface{}, int) {
 	Printf("[DATABASE_HELPER] started inserting data ...")
 	defer Printf("[DATABASE_HELPER] finished inserting data ...")
@@ -202,6 +216,8 @@ func PostData(fn func(*sql.Tx, map[string]string) *sql.Row, w http.ResponseWrite
 	return fmt.Sprintf("Data has been successfully created, id=%v", ID), http.StatusOK
 }
 
+// GetData performs the standard get mechanism
+// TO DO : documentaion will be updated soon
 func GetData(fn func(map[string]string) (*sql.Rows, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
 	Printf("[DATABASE_HELPER] started getting data ...")
 	defer Printf("[DATABASE_HELPER] finished getting data ...")
