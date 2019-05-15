@@ -66,6 +66,7 @@ func InitDB() *sql.DB {
 }
 
 func Scan(rows *sql.Rows) (interface{}, error) {
+	config := dbConfig()
 	columns, err := rows.Columns()
 
 	var allMaps []map[string]interface{}
@@ -82,7 +83,11 @@ func Scan(rows *sql.Rows) (interface{}, error) {
 		resultMap := make(map[string]interface{})
 
 		for i, val := range values {
-			resultMap[columns[i]] = val
+			if config["driver"] == "mysql" {
+				resultMap[columns[i]] = string(val.([]byte))
+			} else {
+				resultMap[columns[i]] = val
+			}
 		}
 
 		allMaps = append(allMaps, resultMap)
