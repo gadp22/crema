@@ -52,10 +52,16 @@ $ curl http://localhost:8001/users
 * Personalized system logger
 
 ## Installation
-With a correctly configured Go toolchain:
+1. With a correctly configured Go toolchain:
 
 ```sh
 $ go get github.com/gadp22/crema
+```
+
+2. Import in your code
+
+```go
+import "github.com/gadp22/crema"
 ```
 
 ## Example
