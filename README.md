@@ -6,7 +6,11 @@ Crema is a Simple Go-Based RESTful API Framework originally written by [Universi
 Playing with RESTful API using Crema is fun and easy
 
 ```go
-func GetUser(conditions map[string]string) (*sql.Rows, error) {
+func hello(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello World!"))
+}
+
+func getUser(conditions map[string]string) (*sql.Rows, error) {
 	q := crema.Select().All().From("users")
 
 	return crema.ExecuteQuery(q.QueryString)
@@ -15,7 +19,8 @@ func GetUser(conditions map[string]string) (*sql.Rows, error) {
 func main() {
 	server := crema.InitServer()
 
-	server.AddRoutes(http.MethodGet, "/users", crema.MakeGenericGetHandler(GetUser))
+	server.AddRoutes(http.MethodGet, "/hello", hello)
+	server.AddRoutes(http.MethodGet, "/users", crema.MakeGenericGetHandler(getUser))
   
 	crema.LogPrintf("[MAIN] Server is running, listening to port 8001 ....")
 
@@ -24,6 +29,9 @@ func main() {
 ```
 
 ```sh
+$ curl http://localhost:8001/hello
+Hello World!
+
 $ curl http://localhost:8001/users
 {"status":1,"message":"Success 200","data":[{"email":"john.doe@email.com","id":16,"name":"John Doe"},{"email":"bob@email.com","id":17,"name":"Bob"}]}
 ```
