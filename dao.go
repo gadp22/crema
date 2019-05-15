@@ -1,3 +1,7 @@
+// Copyright 2019 The Crema Authors. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package crema
 
 import (
@@ -30,6 +34,7 @@ const delete = "DELETE "
 
 const all = "*"
 const and = " AND "
+const or = " OR "
 
 const equals = " = "
 const notEquals = " != "
@@ -367,6 +372,7 @@ func GetGenericSelectQuery(table string, conditions map[string]string) *Query {
 	return q
 }
 
+///ERROR BUG for mysql
 func GetGenericInsertQuery(table string, values map[string]string) *Query {
 	var keyList []string
 	var valList []string

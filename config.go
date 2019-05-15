@@ -1,3 +1,7 @@
+// Copyright 2019 The Crema Authors. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package crema
 
 import (
@@ -8,6 +12,8 @@ import (
 
 var Data map[string]interface{}
 
+// ReadDbConfigFile reads database configuration inside
+// the config file db.json
 func ReadDbConfigFile() map[string]string {
 	conf, _ := ioutil.ReadFile("./conf/db.json")
 
