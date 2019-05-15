@@ -8,12 +8,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type server struct {
+type Server struct {
 	DB     *sql.DB
 	Router *mux.Router
 }
 
-func InitServer() *server {
+func InitServer() *Server {
 	InitLogger()
 
 	LogPrintf("[MAIN] Initializing Server ...")
@@ -21,7 +21,7 @@ func InitServer() *server {
 	db := InitDatabase()
 	router := InitRoutes()
 
-	return &server{db, router}
+	return &Server{db, router}
 }
 
 /**
@@ -52,6 +52,6 @@ func InitRoutes() *mux.Router {
 	return router
 }
 
-func (s *server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
+func (s *Server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
 	s.Router.HandleFunc(routes, handler).Methods(method)
 }

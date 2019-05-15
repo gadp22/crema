@@ -2,6 +2,7 @@ package crema
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -92,6 +93,12 @@ func Select(values ...string) *Query {
 	q.QueryString = strings.TrimRight(q.QueryString, ", ")
 
 	return &q
+}
+
+func (q *Query) Exists() *Query {
+	q.QueryString = fmt.Sprintf("SELECT EXISTS (%s)::int", q.QueryString)
+
+	return q
 }
 
 func Insert(table string) *Query {
@@ -350,11 +357,11 @@ func GetGenericSelectQuery(table string, conditions map[string]string) *Query {
 		id, err := strconv.Atoi(conditions["id"])
 
 		if err != nil {
-			PrintfError(err.Error()) 
+			PrintfError(err.Error())
 			panic(err)
 		}
 
-		q.Where().Equal("id", id)	
+		q.Where().Equal("id", id)
 	}
 
 	return q
