@@ -355,18 +355,23 @@ func (q *Query) Returning(columnName string) *Query {
 	return q
 }
 
-func GetGenericSelectQuery(table string, conditions map[string]string) *Query {
+func GetGenericSelectQuery(table string, conditions map[string]string, key ...string) *Query {
 	q := Select().All().From(table)
 
-	if conditions["id"] != "" {
-		id, err := strconv.Atoi(conditions["id"])
+	var ID string
 
+	if len(key) != 0 {
+		ID = key[0]
+	} else {
+		ID = "id"
+	}
+
+	if conditions[ID] != "" {
 		if err != nil {
 			PrintfError(err.Error())
 			panic(err)
 		}
-
-		q.Where().Equal("id", id)
+		q.Where().Equal(ID, conditions[ID])
 	}
 
 	return q
@@ -388,36 +393,41 @@ func GetGenericInsertQuery(table string, values map[string]string) *Query {
 	return q
 }
 
-func GetGenericUpdateQuery(table string, values map[string]string) *Query {
+//ERRO BUG when updating key column
+func GetGenericUpdateQuery(table string, values map[string]string, key ...string) *Query {
 	q := Update(table).Set()
 
+	var ID string
+
+	if len(key) != 0 {
+		ID = key[0]
+	} else {
+		ID = "id"
+	}
+
 	for key, val := range values {
-		if key != "id" {
+		if key != ID {
 			q.Equal(key, val)
 			q.QueryString += " , "
 		}
 	}
 	q.QueryString = strings.TrimRight(q.QueryString, " , ")
 
-	id, err := strconv.Atoi(values["id"])
-
-	if err != nil {
-		panic(err)
-	}
-
-	q.Where().Equal("id", id)
+	q.Where().Equal(ID, values[ID])
 
 	return q
 }
 
-func GetGenericDeleteQuery(table string, conditions map[string]string) *Query {
-	id, err := strconv.Atoi(conditions["id"])
+func GetGenericDeleteQuery(table string, conditions map[string]string, key ...string) *Query {
+	var ID string
 
-	if err != nil {
-		panic(err)
+	if len(key) != 0 {
+		ID = key[0]
+	} else {
+		ID = "id"
 	}
 
-	q := Delete().From(table).Where().Equal("id", id)
+	q := Delete().From(table).Where().Equal(ID, conditions[ID])
 
 	return q
 }
