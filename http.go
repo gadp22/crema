@@ -6,6 +6,7 @@ package crema
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -31,13 +32,15 @@ func PopulateParams(params map[string]string, conditions map[string]string) {
 // PopulateRequestBody populates the body from the incoming requests
 // TO DO: documentation will be updated soon
 func PopulateRequestBody(r *http.Request, conditions map[string]string) {
-	var rBody map[string]interface{}
+	body, err := ioutil.ReadAll(r.Body)
+	if len(body) > 0 {
+		var test interface{}
+		err = json.Unmarshal(body, &test)
 
-	err := json.NewDecoder(r.Body).Decode(&rBody)
+		HandleError(err)
 
-	HandleError(err)
-
-	for key, val := range interfaceToMapStringString(rBody) {
-		conditions[key] = val
+		for key, val := range interfaceToMapStringString(test.(map[string]interface{})) {
+			conditions[key] = val
+		}
 	}
 }
