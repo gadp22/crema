@@ -43,5 +43,4 @@ func PopulateRequestBody(r *http.Request, conditions map[string]string) {
 			conditions[key] = val
 		}
 	}
-
 }

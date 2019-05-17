@@ -17,15 +17,10 @@ type Server struct {
 	Router *mux.Router
 }
 
-<<<<<<< HEAD
-func InitServer() *Server {
-	InitLogger()
-=======
 // InitServer initializes the core system by setting up
 // the database connection, routing services and system logger
-func InitServer() *server {
+func InitServer() *Server {
 	initLogger()
->>>>>>> 50ebc3a... [refactor][add] renamed source files, removed unnecessary exported functions, added documentations
 
 	LogPrintf("[MAIN] Initializing Server ...")
 
@@ -59,12 +54,8 @@ func initRoutes() *mux.Router {
 	return router
 }
 
-<<<<<<< HEAD
-func (s *Server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
-=======
 // AddRoutes is used to create HTTP request routing
 // TO DO: documentation to be updated soon
-func (s *server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
->>>>>>> 50ebc3a... [refactor][add] renamed source files, removed unnecessary exported functions, added documentations
+func (s *Server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
 	s.Router.HandleFunc(routes, handler).Methods(method)
 }

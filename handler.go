@@ -7,8 +7,20 @@ package crema
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
+
+type Handler struct {
+	SingleValueQueryString bool
+	RawBody                bool
+}
+
+var GenericHandler Handler
+
+var requestParameters map[string]string
 
 // MakeGenericGetHandler creates a generic GET-request handler
 // TO DO : documentation will be updated soon
@@ -61,4 +73,176 @@ func writeResponses(w http.ResponseWriter, data interface{}, status int) {
 
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(response)
+}
+
+// DeleteData performs the standard delete mechanism
+// TO DO : documentaion will be updated soon
+func DeleteData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
+	startHandler(r)
+
+	Printf("[HANDLER] started deleting data ...")
+	defer Printf("[HANDLER] finished deleting data ...")
+
+	tx, err := BeginTransaction()
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	conditions := requestParameters
+
+	res, err := fn(tx, conditions)
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		tx.Rollback()
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	Printf(res)
+	return fmt.Sprintf("Data has been successfully deleted."), http.StatusOK
+}
+
+// PutData performs the standard put mechanism
+// TO DO : documentaion will be updated soon
+func PutData(fn func(*sql.Tx, map[string]string) (sql.Result, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
+	startHandler(r)
+
+	Printf("[HANDLER] started updating data ...")
+	defer Printf("[HANDLER] finished updating data ...")
+
+	tx, err := BeginTransaction()
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	values := requestParameters
+
+	res, err := fn(tx, values)
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		tx.Rollback()
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	Printf(res)
+	return fmt.Sprintf("Data has been successfully updated."), http.StatusOK
+}
+
+// PostData performs the standard post mechanism
+// TO DO : documentaion will be updated soon
+func PostData(fn func(*sql.Tx, map[string]string) *sql.Row, w http.ResponseWriter, r *http.Request) (interface{}, int) {
+	startHandler(r)
+
+	Printf("[HANDLER] started inserting data ...")
+	defer Printf("[HANDLER] finished inserting data ...")
+
+	tx, err := BeginTransaction()
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	values := requestParameters
+
+	var ID int
+
+	err = fn(tx, values).Scan(&ID)
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		tx.Rollback()
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	return fmt.Sprintf("Data has been successfully created, id=%v", ID), http.StatusOK
+}
+
+// GetData performs the standard get mechanism
+// TO DO : documentaion will be updated soon
+func GetData(fn func(map[string]string) (*sql.Rows, error), w http.ResponseWriter, r *http.Request) (interface{}, int) {
+	startHandler(r)
+
+	Printf("[HANDLER] started getting data ...")
+	defer Printf("[HANDLER] finished getting data ...")
+
+	conditions := requestParameters
+
+	rows, err := fn(conditions)
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	data, err := Scan(rows)
+
+	if err != nil {
+		return err.Error(), http.StatusInternalServerError
+	}
+
+	if data != nil {
+		return data, http.StatusOK
+	}
+
+	return data, http.StatusNotFound
+}
+
+func isGenericHandlerNotYetDefined() bool {
+	if !GenericHandler.RawBody && !GenericHandler.SingleValueQueryString {
+		return true
+	}
+
+	return false
+}
+
+func (h *Handler) EnableSingleValueQueryParam() {
+	h.SingleValueQueryString = true
+}
+
+func (h *Handler) DisableSingleValueQueryParam() {
+	h.SingleValueQueryString = false
+}
+
+func (h *Handler) EnableRawBody() {
+	h.RawBody = true
+}
+
+func (h *Handler) DisableRawBody() {
+	h.RawBody = false
+}
+
+func startHandler(r *http.Request) {
+	if isGenericHandlerNotYetDefined() {
+		GenericHandler.EnableSingleValueQueryParam()
+	}
+
+	requestParameters = make(map[string]string)
+	params := mux.Vars(r)
+
+	PopulateParams(params, requestParameters)
+
+	if GenericHandler.SingleValueQueryString {
+		PopulateSingleValueQueries(r, requestParameters)
+	}
+
+	if GenericHandler.RawBody {
+		PopulateRequestBody(r, requestParameters)
+	}
 }
