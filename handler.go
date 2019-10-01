@@ -35,6 +35,9 @@ func MakeGenericGetHandler(fn func(map[string]string) (*sql.Rows, error)) http.H
 // TO DO : documentation will be updated soon
 func MakeGenericPostHandler(fn func(*sql.Tx, map[string]string) *sql.Row) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if (*r).Method == "OPTIONS" {
+			return
+		}
 		data, status := PostData(fn, w, r)
 		writeResponses(w, data, status)
 	}
