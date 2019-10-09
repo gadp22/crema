@@ -59,3 +59,8 @@ func initRoutes() *mux.Router {
 func (s *Server) AddRoutes(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
 	s.Router.HandleFunc(routes, handler).Methods(method)
 }
+
+// AddRoutesOp with Options
+func (s *Server) AddRoutesOp(method string, routes string, handler func(http.ResponseWriter, *http.Request)) {
+	s.Router.HandleFunc(routes, handler).Methods(method, "OPTIONS")
+}

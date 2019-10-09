@@ -35,6 +35,9 @@ func MakeGenericGetHandler(fn func(map[string]string) (*sql.Rows, error)) http.H
 // TO DO : documentation will be updated soon
 func MakeGenericPostHandler(fn func(*sql.Tx, map[string]string) *sql.Row) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if (*r).Method == "OPTIONS" {
+			return
+		}
 		data, status := PostData(fn, w, r)
 		writeResponses(w, data, status)
 	}
@@ -44,6 +47,9 @@ func MakeGenericPostHandler(fn func(*sql.Tx, map[string]string) *sql.Row) http.H
 // TO DO : documentation will be updated soon
 func MakeGenericPutHandler(fn func(*sql.Tx, map[string]string) (sql.Result, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if (*r).Method == "OPTIONS" {
+			return
+		}
 		data, status := PutData(fn, w, r)
 		writeResponses(w, data, status)
 	}
@@ -60,6 +66,8 @@ func MakeGenericDeleteHandler(fn func(*sql.Tx, map[string]string) (sql.Result, e
 
 func writeResponses(w http.ResponseWriter, data interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	var response GenericResponse
 

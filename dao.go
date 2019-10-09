@@ -52,6 +52,7 @@ const asc = " ASC"
 const desc = " DESC"
 
 const limit = " LIMIT "
+const like = " LIKE "
 
 func SetDB(database *sql.DB) {
 	db = database
@@ -201,6 +202,12 @@ func (q *Query) Where() *Query {
 
 func (q *Query) And() *Query {
 	q.QueryString += and
+
+	return q
+}
+
+func (q *Query) Or() *Query {
+	q.QueryString += or
 
 	return q
 }
@@ -355,6 +362,18 @@ func (q *Query) Returning(columnName string) *Query {
 	return q
 }
 
+func (q *Query) Like(key string, val interface{}) *Query {
+
+	q.QueryString += "lower(" + key + ")"
+	q.QueryString += like
+
+	q.QueryString += "lower('%"
+	q.QueryString += val.(string)
+	q.QueryString += "%')"
+
+	return q
+}
+
 func GetGenericSelectQuery(table string, conditions map[string]string, key ...string) *Query {
 	q := Select().All().From(table)
 
@@ -407,7 +426,11 @@ func GetGenericUpdateQuery(table string, values map[string]string, key ...string
 
 	for key, val := range values {
 		if key != ID {
-			q.Equal(key, val)
+			if val == "now()" {
+				q.EqualColumn(key, val)
+			} else {
+				q.Equal(key, val)
+			}
 			q.QueryString += " , "
 		}
 	}
