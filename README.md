@@ -64,5 +64,10 @@ $ go get github.com/gadp22/crema
 import "github.com/gadp22/crema"
 ```
 
-## Example
+## Examples and Tutorials
+
+[How to set up](http://phabricator.hexavara.com/w/internal/software_development/crema/init_crema/) your first project using Crema.
+
 See [here](https://github.com/gadp22/crema/blob/master/example.go) to see basic example to build a CRUD API. 
+
+[Getting started](http://phabricator.hexavara.com/w/internal/software_development/crema/crema_query/) with the Crema Query Language.
