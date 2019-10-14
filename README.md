@@ -1,7 +1,7 @@
 
 
 # Crema
-Crema is a Simple Go-Based RESTful API Framework originally written by [Universitas Pertamina ICT teams](https://tki.universitaspertamina.ac.id) to support its Microservices environment development. It is written in pure Go and completely free.
+Crema is a Simple Go-Based RESTful API Framework originally written by [Universitas Pertamina ICT teams](https://tki.universitaspertamina.ac.id) to support its Microservices environment development. It is written in pure Go and completely free. Crema is now maintained by a small independent research and development team, and is also supported by Hexavara Foundation.
 
 ## RESTful
 Playing with RESTful API using Crema is fun and easy
@@ -66,8 +66,8 @@ import "github.com/gadp22/crema"
 
 ## Examples and Tutorials
 
-[How to set up](http://phabricator.hexavara.com/w/internal/software_development/crema/init_crema/) your first project using Crema.
+[How to set up](http://phabricator.hexavara.com/w/crema/init_crema/) your first project using Crema.
 
 See [here](https://github.com/gadp22/crema/blob/master/example.go) to see basic example to build a CRUD API. 
 
-[Getting started](http://phabricator.hexavara.com/w/internal/software_development/crema/crema_query/) with the Crema Query Language.
+[Getting started](http://phabricator.hexavara.com/w/crema/crema_query/) with the Crema Query Language.
