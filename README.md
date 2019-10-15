@@ -70,4 +70,4 @@ import "github.com/gadp22/crema"
 
 See [here](https://github.com/gadp22/crema/blob/master/example.go) to see basic example to build a CRUD API. 
 
-[Getting started](http://phabricator.hexavara.com/w/crema/crema_query/) with the Crema Query Language.
+See [here](http://phabricator.hexavara.com/w/crema/) to see further documentations.
