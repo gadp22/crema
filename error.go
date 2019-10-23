@@ -8,7 +8,6 @@ package crema
 // a go panic to stop the ordinary flow of control and begins panicking.
 func HandleError(err error) {
 	if err != nil {
-		PrintfError(err.Error())
-		panic(err)
+		LogPrintfError(err.Error())
 	}
 }

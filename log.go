@@ -62,3 +62,11 @@ func LogPrintf(data interface{}) {
 	log.Println(data)
 	Printf(data)
 }
+
+// LogPrintfError calls file.WriteString() to print error messages to the log file
+// It also calls log.Println() to print log messages to the standard logger
+// Example output: YYYY-MM-DD HH:MM:SS [ERROR] this is an error log.
+func LogPrintfError(data interface{}) {
+	log.Println(data)
+	PrintfError(data)
+}
