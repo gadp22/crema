@@ -66,8 +66,8 @@ import "github.com/gadp22/crema"
 
 ## Examples and Tutorials
 
-[How to set up](http://phabricator.hexavara.com/w/crema/init_crema/) your first project using Crema.
+[How to set up](http://collaboration.hexavara.com/w/crema/init_crema/) your first project using Crema.
 
 See [here](https://github.com/gadp22/crema/blob/master/example.go) to see basic example to build a CRUD API. 
 
-See [here](http://phabricator.hexavara.com/w/crema/) to see further documentations.
+See [here](http://collaboration.hexavara.com/w/crema/) to see further documentations.
