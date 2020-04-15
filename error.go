@@ -4,10 +4,16 @@
 
 package crema
 
-// HandleError calls crema.PrintfError(). It then calls panic() which represents
-// a go panic to stop the ordinary flow of control and begins panicking.
+// HandleError calls crema.PrintfError().
 func HandleError(err error) {
 	if err != nil {
 		LogPrintfError(err.Error())
 	}
+}
+
+// HandleError calls crema.PrintfError(). It then calls panic() which represents
+// a go panic to stop the ordinary flow of control and begins panicking.
+func HandleErrorWithPanic(err error) {
+	HandleError(err)
+	panic(err)
 }

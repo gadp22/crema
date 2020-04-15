@@ -44,11 +44,11 @@ func InitDB() *sql.DB {
 
 		db, err := sql.Open("postgres", psqlInfo)
 
-		HandleError(err)
+		HandleErrorWithPanic(err)
 
 		err = db.Ping()
 
-		HandleError(err)
+		HandleErrorWithPanic(err)
 
 		Printf("[DATABASE] Successfully connected!")
 
@@ -60,10 +60,9 @@ func InitDB() *sql.DB {
 
 		db, err := sql.Open("mysql", connectionString)
 
-		HandleError(err)
+		HandleErrorWithPanic(err)
 
 		return db
-
 	}
 
 	return nil

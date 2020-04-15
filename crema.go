@@ -34,9 +34,15 @@ func initDatabase() *sql.DB {
 	LogPrintf("[MAIN] Initializing Database ...")
 
 	db := InitDB()
-	SetDB(db)
 
-	return db
+	if db != nil {
+		SetDB(db)
+
+		return db
+	} else {
+		return nil
+	}
+
 }
 
 func initLogger() {
